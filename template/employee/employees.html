@@ -1,0 +1,47 @@
+{% extends 'base.html'%}
+{% block title%}
+    <title>employee</title>
+{%endblock%}
+{% block breadcrumb%}
+    <li class="breadcrumb-item active" aria-current="page">employees</li>
+{%endblock%}
+{% block content%}
+    <table class="table table-hover">
+        <thead class="table-dark">
+            <th>employee name</th>
+            <th>employee age</th>
+            <th>employee salary</th>
+            <th>employee positions Count</th>
+        </thead>
+        <tbody>
+        {%for employee in employees %}
+            <tr>
+                <td><a href="{% url 'employee:EmployeeDetails' employee.pk %}">{{employee.name}}</a></td>
+                <td>{{employee.age}}</td>
+                <td>{{employee.salary}}</td>
+                <td>{{employee.positionEmployee.count}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          {% if page_obj.has_previous %}
+          <li class="page-item"><a class="page-link" href="?page=1">&laquo; first</a></li>
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">previous</a></li>
+          {% endif %}
+            
+          
+          <li class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</li>
+            
+        
+    
+          {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a></li>
+          {% endif %}
+        </span>
+        <hr/><a href="{% url 'employee:newEmployee'%}" class="btn btn-outline-primary">new employee</a>
+      </div>
+{%endblock%}
+    

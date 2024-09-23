@@ -1,0 +1,41 @@
+{% extends 'base.html'%}
+{% block title%}
+    <title>employee {{employee.name}}</title>
+{%endblock%}
+{% block breadcrumb%}
+    <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'employee:employeesList' %}">employees</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{employee.name}}</li>
+{%endblock%}
+{% block content%}
+        <div class="bg-light border border-secondary rounded-lg pt-3" >
+            <dl class="row ml-4">
+                <dt class="col-sm-3">Name:</dt>
+                <dd class="col-sm-9">{{employee.name}} <br/> </dd>
+                <dt class="col-sm-3">Age:</dt>
+                <dd class="col-sm-9">{{employee.age}}</dd>
+                <dt class="col-sm-3">Salary:</dt>
+                <dd class="col-sm-9">{{employee.salary}}</dd>
+            </dl>
+        </div>
+        <br/>
+        <a href="#" class="btn btn-outline-primary"> Edit employee </a>
+        <br/>
+        <h2>Positions</h2>
+        <table class="table ">
+            <thead class="thead-dark">
+                <th>name</th>
+                <th>years_of_experience</th>
+                <th>description</th>
+            </thead>
+            <tbody>
+                {% for position in employee.positionEmployee.all %}
+                <tr>
+                    <td><a href="{% url 'employee:editPositionToEmployee' employee.id position.id %}">{{position.name}}</a></td>
+                    <td>{{position.years_of_experience}}</td>
+                    <td>{{position.description}}</td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+        <a href="{% url 'employee:newPositionToEmployee' employee.pk %}" class="btn btn-outline-primary"> add position to employee </a>
+{%endblock%}

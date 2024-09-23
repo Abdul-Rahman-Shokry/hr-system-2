@@ -1,0 +1,39 @@
+{% extends 'base.html'%}
+{% block title%}
+    <title>branche {{branche.name}}</title>
+{%endblock%}
+{% block breadcrumb%}
+    <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'branches' %}">branches</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{branche.name}}</li>
+{%endblock%}
+{% block content%}
+        <div class="bg-light border border-secondary rounded-lg pt-3" >
+            <dl class="row ml-4">
+                <dt class="col-sm-3">Name:</dt>
+                <dd class="col-sm-9">{{branche.name}} <br/> <p class="text-muted">{{branche.address}}</p></dd>
+                <dt class="col-sm-3">Phone:</dt>
+                <dd class="col-sm-9">{{branche.phone}}</dd>
+                <dt class="col-sm-3">Email:</dt>
+                <dd class="col-sm-9">{{branche.email}}</dd>
+            </dl>
+        </div>
+        <br/>
+        <a href="#" class="btn btn-outline-primary"> Edit branche </a>
+        <br/>
+        <h2>Departments</h2>
+        <table class="table ">
+            <thead class="thead-dark">
+                <th>name</th>
+                <th>description</th>
+            </thead>
+            <tbody>
+                {% for department in branche.departmentsBranche.all %}
+                <tr>
+                    <td><a href="{% url 'editDepartmentToBranche' branche.id department.id %}">{{department.name}}</a></td>
+                    <td>{{department.description}}</td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+        <a href="{% url 'newDepartmentToBranche' branche.pk %}" class="btn btn-outline-primary"> add department to branche </a>
+{%endblock%}

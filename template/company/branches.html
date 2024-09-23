@@ -1,0 +1,47 @@
+{% extends 'base.html'%}
+{% block title%}
+    <title>branches</title>
+{%endblock%}
+{% block breadcrumb%}
+    <li class="breadcrumb-item active" aria-current="page">branches</li>
+{%endblock%}
+{% block content%}
+    <table class="table table-hover">
+        <thead class="thead-dark">
+            <th>branche name</th>
+            <th>branche phone</th>
+            <th>branche mail</th>
+            <th>branche departments Count</th>
+        </thead>
+        <tbody>
+        {%for branche in branches %}
+            <tr>
+                <td><a href="{% url 'branchesDetails' branche.pk %}">{{branche.name}}</a><br/><small class="text-muted">{{branche.address}}</small></td>
+                <td>{%if branche.phone%}{{branche.phone}}{%endif%}</td>
+                <td>{%if branche.email%}{{branche.email}}{%endif%}</td>
+                <td>{{branche.departmentsBranche.count}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          {% if page_obj.has_previous %}
+          <li class="page-item"><a class="page-link" href="?page=1">&laquo; first</a></li>
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">previous</a></li>
+          {% endif %}
+            
+          
+          <li class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</li>
+            
+        
+    
+          {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a></li>
+          {% endif %}
+        </span>
+        <hr/><a href="{% url 'newBranche'%}" class="btn btn-outline-primary">new branche</a>
+      </div>
+{%endblock%}
+    

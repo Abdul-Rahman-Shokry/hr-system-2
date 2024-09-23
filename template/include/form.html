@@ -1,0 +1,39 @@
+{% load widget_tweaks %}
+{% csrf_token %}
+<!-- {{form}} -->
+{% if form.is_bound %}
+    {% for field in form %}
+        <div class="form-group">
+            {{field.label}}
+            {% with palceholderText="Enter " %}
+            {% if field.errors %}
+                {% render_field field class="form-control is-invalid" placeholder=palceholderText|add:field.label %}
+                {%for error in field.errors%}
+                    <div class="invalid-feedback">
+                        {{error}}
+                    </div>
+                {%endfor%}
+            {% else%}
+            {% render_field field class="form-control is-valid" placeholder=palceholderText|add:field.label %}
+            
+            {% endif%}
+            <p class="font-weight-light">{{field.help_text}}</p>
+            {% endwith %}
+        </div>
+    {%endfor%}
+{%else%}
+    {% for field in form %}
+    <div class="form-group">
+        {%if field.label != 'Branch'%}
+        {{field.label}}
+        {% with palceholderText="Enter " %}
+        {% render_field field class="form-control" placeholder=palceholderText|add:field.label %}
+        <p class="font-weight-light">{{field.help_text}}</p>
+        {% endwith %}
+        {%endif%}
+    </div>
+    {%endfor%}
+{%endif%}
+{%if form.errors%}
+<div class="alert alert-danger" role="alert">{{form.errors}}</div>
+{%endif%}

@@ -1,0 +1,15 @@
+{% extends 'base.html'%}
+{%block title%}
+<title>new branshe</title>
+{%endblock%}
+{% block breadcrumb%}
+    <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'branches' %}">branches</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'branchesDetails' branche.id %}">{{branche.name}}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">new department</li>
+{%endblock%}
+{% block content%}
+<form method="post" novalidate>
+    {% include 'include/form.html' %}
+    <input type="submit" value="add department" class="btn btn-outline-success">
+</form>
+{%endblock%}
