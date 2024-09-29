@@ -3,16 +3,12 @@ from django.db.models.query import QuerySet
 from django.forms import BaseModelForm
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render,redirect
+from django.urls import reverse
 # from django.http import HttpResponse
 from .models import branches,departments
-from .forms import newDepartmentToBrancheForm,editDepartmentToBrancheForm
+from .forms import EditBrancheForm, newDepartmentToBrancheForm,editDepartmentToBrancheForm
 from django.views.generic import ListView,CreateView
-
-
-# Create your views here.
-# def Branches(request):
-#     b = branches.objects.all()
-#     return render(request,'company/branches.html',{'branches':b})
+from django.views.generic.edit import UpdateView
 
 class BranchesView(ListView):
     model = branches
@@ -20,9 +16,6 @@ class BranchesView(ListView):
     context_object_name = 'branches'
     paginate_by = 5
 
-# def BrancheDetails(request,branche_id):
-#     b= branches.objects.get(pk=branche_id)
-#     return render(request,'company/brancheDetails.html',{'branche':b})
 
 class BrancheDetailsView(ListView):
     template_name = 'company/brancheDetails.html'
@@ -43,23 +36,6 @@ def newBranche(request):
     return render(request,'company/newBranche.html')
 
 
-# def newDepartmentToBranche(request,branche_id):
-#     b = branches.objects.get(pk=branche_id)
-#     form = newDepartmentToBrancheForm()
-#     if request.method == 'POST':
-#         form = newDepartmentToBrancheForm(request.POST)
-#         if form.is_valid():
-#             if departments.objects.filter(name = form.cleaned_data['name'],branch_id = branche_id).exists():
-#                 form.add_error('name','this department is already exists in this branch')
-#                 return render(request,'company/newDepartmentToBranche.html',{'form':form,'branche':b})
-
-#             department = form.save(commit=False)
-#             department.branch_id = branche_id
-#             department.save()
-#             return render(request,'company/brancheDetails.html',{'branche':b})
-#     # print(form)
-#     # print(form.fields)
-#     return render(request,'company/newDepartmentToBranche.html',{'form':form,'branche':b})
 
 class newDepartmentToBrancheView(CreateView):
     form_class = newDepartmentToBrancheForm
@@ -79,24 +55,8 @@ class newDepartmentToBrancheView(CreateView):
         department.branch_id = self.kwargs['branche_id']
         department.save()
         return redirect('branchesDetails',branche_id =  self.kwargs['branche_id'])
-        
-    
 
-# def editDepartmentToBranche(request,branche_id,depaertment_id):
-#     form = editDepartmentToBrancheForm()
-#     b = branches.objects.get(pk=branche_id)
-#     dept = departments.objects.get(pk=depaertment_id)
-#     form.fields['name'].initial = dept.name
-#     form.fields['description'].initial = dept.description
-#     if request.method == "POST":
-#         form = editDepartmentToBrancheForm(request.POST)
-#         if form.is_valid():
-#             deptformData = form.save(commit=False)
-#             dept.name = deptformData.name
-#             dept.description = deptformData.description
-#             dept.save()
-#             return render(request,'company/brancheDetails.html',{'branche':b})
-#     return render(request,'company/editDepartmentToBranche.html',{'form':form,'branche':b,'dept':dept})
+
 
 class editDepartmentToBrancheView(CreateView):
     form_class = newDepartmentToBrancheForm
@@ -131,6 +91,15 @@ class editDepartmentToBrancheView(CreateView):
         return redirect('branchesDetails',branche_id =  self.kwargs['branche_id'])
 
 
+class editBrancheView(UpdateView):
+    model = branches
+    form_class = EditBrancheForm
+    template_name = 'company/editBranche.html'
+    pk_url_kwarg = 'branche_id'
+    context_object_name = 'branche'
 
-    
+    def get_success_url(self):
+        return reverse('branchesDetails', kwargs={'branche_id': self.object.pk})
+
+
 

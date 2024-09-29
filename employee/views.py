@@ -3,9 +3,10 @@ from django.db.models.query import QuerySet
 from django.forms import BaseModelForm
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render,redirect
+from django.urls import reverse
 from .models import Employee,Position
-from .forms import newPositionToEmployeeForm,editPositionToEmployeeForm
-from django.views.generic import ListView,CreateView
+from .forms import newPositionToEmployeeForm,editPositionToEmployeeForm, EmployeeForm
+from django.views.generic import ListView,CreateView, UpdateView
 
 
 
@@ -86,5 +87,12 @@ class editPositionToEmployeeView(CreateView):
 
 
 
-    
+class editEmployeeView(UpdateView):
+    model = Employee
+    form_class = EmployeeForm
+    template_name = 'employee/editEmployee.html'
+    pk_url_kwarg = 'employee_id'
+    context_object_name = 'employee'
 
+    def get_success_url(self):
+        return reverse('employee:EmployeeDetails', kwargs={'employee_id': self.object.pk})

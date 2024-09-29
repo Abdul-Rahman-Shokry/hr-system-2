@@ -3,37 +3,94 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    {% block title%}{%endblock%}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}{% endblock %}
     <link rel="stylesheet" href="{% static 'bootstrap/bootstrap.min.css' %}" />
     <script src="{% static 'bootstrap/bootstrap.bundle.min.js' %}"></script>
+    <style>
+        /* Flexbox to make the footer stay at the bottom */
+        html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Main content container */
+        .content-container {
+            flex: 1;
+        }
+
+        footer {
+            background-color: #343a40;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand mx-auto" style="font-size: 55px;font-family: 'Arial', sans-serif;">HR SYSTEM</a>
-        {%if user.is_authenticated %}
-            <div>
-                <label>welcom {{user.username}}</label>
-                <!-- <a href="{% url 'logout'%}">logout</a> -->
-                <form style="display: inline;" method="post" action="{% url 'logout' %}">
-                    {% csrf_token %}
-                    <input type="submit" class="btn btn-info" value="logout" />
-                </form>
-                <a class="btn btn-info" href="{% url 'password_change'%}">change password</a>
+    <nav class="navbar navbar-dark bg-dark py-3">
+        <div class="container d-flex justify-content-between align-items-center">
+            <!-- Title Centered -->
+            <a class="navbar-brand mx-auto text-center" style="font-size: 45px; font-family: 'Arial', sans-serif; color: #f8f9fa;">
+                HR SYSTEM
+            </a>
+
+            <!-- User Section -->
+            <div class="d-flex align-items-center">
+                {% if user.is_authenticated %}
+                    <!-- Welcome Label with adjusted styles -->
+                    <label class="mr-3" style="font-size: 18px; color: #f8f9fa; font-weight: 600;">
+                        Welcome, {{ user.username }}
+                    </label>
+
+                    <!-- Logout Button -->
+                    <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <input type="submit" class="btn btn-outline-light mr-2" value="Logout" />
+                    </form>
+
+                    <!-- Change Password Button -->
+                    <a class="btn btn-outline-light mr-2" href="{% url 'password_change' %}">
+                        Change Password
+                    </a>
+                {% else %}
+                    <!-- Login and Sign Up Buttons for non-authenticated users -->
+                    <a class="btn btn-outline-light mr-2" href="{% url 'login' %}">
+                        Login
+                    </a>
+                    <a class="btn btn-outline-light" href="{% url 'signUp' %}">
+                        Sign Up
+                    </a>
+                {% endif %}
             </div>
-        {%else%}
-            <div>
-                <a class="btn btn-info" href="{% url 'login'%}">login</a>
-                <a class="btn btn-info" href="{% url 'signUp'%}">signUp</a>
-            </div>
-        {%endif%}        
+        </div>
     </nav>
-    <div class="container mt-5" >
+
+    <div class="container content-container mt-5">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                {% block breadcrumb%}{%endblock%}
+                {% block breadcrumb %}{% endblock %}
             </ol>
         </nav>
-        {% block content%}{%endblock%}
+
+        {% block content %}{% endblock %}
     </div>
+
+    <!-- Footer -->
+    <footer class="py-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>HR SYSTEM</h5>
+                    <p class="text-muted">© 2024 HR SYSTEM. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-right">
+                    <a href="#" class="text-white mr-3">Privacy Policy</a>
+                    <a href="#" class="text-white mr-3">Terms of Service</a>
+                    <a href="#" class="text-white">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>Edit Employee - {{ employee.name }}</title>
+{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'employee:employeesList' %}">Employees</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Edit Employee: {{ employee.name }}</li>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Edit Employee Information</h2>
+    <form method="POST" class="bg-light p-4 border rounded">
+        {% csrf_token %}
+        <!-- employee name -->
+        <div class="form-group row mb-3">
+            <label for="employeeName" class="col-sm-2 col-form-label">Employee Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="employeeName" name="employeeName" value="{{ employee.name }}" required>
+            </div>
+        </div>
+        <!-- employee age -->
+        <div class="form-group row mb-3">
+            <label for="employeeAge" class="col-sm-2 col-form-label">Employee Age</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="employeeAge" name="employeeAge" value="{{ employee.age }}" required>
+            </div>
+        </div>
+        <!-- employee salary -->
+        <div class="form-group row mb-3">
+            <label for="employeeSalary" class="col-sm-2 col-form-label">Employee Salary</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="employeeSalary" name="employeeName" value="{{ employee.salary }}" required>
+            </div>
+        </div>
+        <!-- Submit and Cancel Buttons -->
+        <div class="form-group row mt-4">
+            <div class="col-sm-10 offset-sm-2">
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <a href="{% url 'employee:EmployeeDetails' employee.id %}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

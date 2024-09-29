@@ -9,4 +9,5 @@ urlpatterns = [
     path('new-employee',EmployeeView.newEmployee,name="newEmployee"),
     path('employee/<int:employee_id>/newPosition',EmployeeView.newPositionToEmployeeView.as_view(),name="newPositionToEmployee"),
     path('employee/<int:employee_id>/editPosition/<int:position_id>',EmployeeView.editPositionToEmployeeView.as_view(),name="editPositionToEmployee"),
+    path('employee/<int:employee_id>/edit', EmployeeView.editEmployeeView.as_view(), name="editEmployee"),
 ]
